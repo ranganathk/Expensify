@@ -1,4 +1,4 @@
-import { createStore, bindActionCreators } from 'redux';
+import { createStore } from 'redux';
 
 const incrementCount = ({ incrementBy = 1 } = {}) => ({
     type: 'INCREMENT',
