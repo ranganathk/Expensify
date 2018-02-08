@@ -5,7 +5,7 @@ const defaultExpenses = [];
 
 const defaultFilters = {
   text: '',
-  sortBy: 'Date',
+  sortBy: 'date',
   startDate: undefined,
   endDate: undefined
 };
@@ -93,12 +93,12 @@ const filtersReducer = (state = defaultFilters, action) => {
     case 'SORT_BY_AMOUNT':
       return {
         ...state,
-        sortBy: 'Amount'
+        sortBy: 'amount'
       };
     case 'SORT_BY_DATE':
       return {
         ...state,
-        sortBy: 'Date'
+        sortBy: 'date'
       };
     case 'SET_START_DATE':
       return {
@@ -122,7 +122,13 @@ const getVisibleExpenses = (expenses, { text, startDate, endDate, sortBy }) => {
     const endDateMatch = typeof(endDate) !== 'number' || expense.createdAt <= endDate;
 
     return startDateMatch && endDateMatch && textMatch;
-  });
+  }).sort((expense1, expense2) => {
+    if (sortBy === 'date') {
+      return expense1.createdAt < expense2.createdAt;
+    } else if (sortBy === 'amount') {
+      return expense1.amount < expense2.amount;
+    }
+  })
 };
 
 const store = createStore(combineReducers({
@@ -136,24 +142,24 @@ const unsubscribe = store.subscribe(() => {
   console.log(visibleExpenses);
 })
 
-const rent = store.dispatch(addExpense({ amount: 5000, description: 'Rent', paidTo: 'Flat Owner', createdAt: 1000 }));
+const rent = store.dispatch(addExpense({ amount: 5000, description: 'Rent', paidTo: 'Flat Owner', createdAt: -1000 }));
 // const dinner = store.dispatch(addExpense({ amount: 250, description: 'Dinner', paidTo: 'Mehfil' }));
 
 // store.dispatch(deleteExpense({ id: dinner.expense.id }));
 
-const coffee = store.dispatch(addExpense({ amount: 250, description: 'Dinner', paidTo: 'CCD' }));
+const coffee = store.dispatch(addExpense({ amount: 25000, description: 'Dinner', paidTo: 'CCD' }));
 
 // store.dispatch(deleteExpense({ id: rent.expense.id }));
 
 // store.dispatch(editExpense(coffee.expense.id, { description: 'Coffee' }));
 
-store.dispatch(setTextFilter('re'));
-store.dispatch(setTextFilter('rent'));
-store.dispatch(setTextFilter('red'));
+// store.dispatch(setTextFilter('re'));
+// store.dispatch(setTextFilter('rent'));
+// store.dispatch(setTextFilter('red'));
 // store.dispatch(setTextFilter(''));
 
 // store.dispatch(sortByAmount());
-// store.dispatch(sortByDate());
+store.dispatch(sortByDate());
 
 // store.dispatch(setStartDate(125));
 // store.dispatch(setStartDate());
