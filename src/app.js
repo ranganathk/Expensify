@@ -11,9 +11,9 @@ import './styles/style.scss';
 
 const store = configStore();
 
-store.dispatch(addExpense({ amount: 1000, description: 'Water Bill', paidTo: 'GHMC' }));
-store.dispatch(addExpense({ amount: 1500, description: 'Gas Bill', paidTo: 'Bharat Gas' }));
-store.dispatch(setTextFilter('water'));
+store.dispatch(addExpense({ amount: 1000, description: 'Water Bill', paidTo: 'GHMC', createdAt: 12000 }));
+store.dispatch(addExpense({ amount: 1500, description: 'Gas Bill', paidTo: 'Bharat Gas', createdAt: 2000 }));
+store.dispatch(addExpense({ amount: 5000, description: 'Rent', paidTo: 'Flat Owner' }));
 
 const state = store.getState();
 const visibleExpenses = getVisibleExpenses(state.expenses, state.filters);
